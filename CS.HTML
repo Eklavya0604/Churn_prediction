@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ChurnSense - Customer Churn Prediction</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <!-- AOS Animation Library -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css" rel="stylesheet" />
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; line-height: 1.6; color: #333; background: #f5f7fa; overflow-x: hidden; }
+    a { text-decoration: none; color: inherit; }
+    ul { list-style: none; }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #e1e4e8; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb { background: #4a90e2; border-radius: 4px; }
+
+    /* Navbar */
+    nav { background: linear-gradient(90deg,#4a90e2,#50e3c2); padding: 20px 2rem; position: fixed; width: 100%; top: 0; z-index: 1000; display: flex; align-items: center; justify-content: space-between; }
+    .logo { font-size: 1.5rem; font-weight: bold; color: #fff; }
+    .nav-links { display: flex; gap: 1rem; }
+    .nav-links a { color: #fff; font-weight: 500; padding: 0.5rem 1rem; transition: background 0.3s; }
+    .nav-links a:hover { background: rgba(255,255,255,0.2); border-radius: 4px; }
+    .social { display: flex; gap: 1rem; }
+    .social a, .toggle-theme { color: #fff; font-size: 1.2rem; cursor: pointer; }
+
+    /* Sections */
+    section { padding: 8rem 2rem 6rem 2rem; }
+    .container { max-width: 1200px; margin: 0 auto; padding: 0 1rem; }
+    .row { display: flex; align-items: center; flex-wrap: wrap; margin-bottom: 4rem; }
+    .row.reverse { flex-direction: row-reverse; }
+    .row .box {
+        background: #fff;
+        padding: 2rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        transition: transform 0.3s, box-shadow 0.3s;
+      }
+      .box:hover {
+        transform: translateY(-10px) scale(1.03);
+        box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+      }
+    .box { background: #fff; padding: 2rem; border-radius: 12px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+    .box i { font-size: 2.5rem; margin-bottom: 1rem; color: #4a90e2; }
+    .box h3 { margin-bottom: 1rem; }
+    .box p { color: #555; }
+
+    /* Hero */
+    header {
+      height: 100vh;
+      background: linear-gradient(135deg, #4a90e2cc, #50e3c2cc), url('https://source.unsplash.com/1600x900/?data,tech') repeat-x center/cover;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0 2rem;
+      animation: bgScroll 30s linear infinite;
+    }
+    @keyframes bgScroll {
+      0% { background-position: 0% center; }
+      100% { background-position: -200% center; }
+    }
+    .hero-content { color: #fff; max-width: 600px; text-align: center; }
+    .hero-content h1 { font-size: 3rem; margin-bottom: 1.5rem; }
+    .hero-content p { font-size: 1.3rem; margin-bottom: 2rem; }
+    .cta-btn { background: #fff; color: #4a90e2; font-weight: bold; padding: 0.8rem 2rem; border-radius: 50px; transition: transform 0.3s; }
+    .cta-btn:hover { transform: scale(1.05); }
+
+    /* Graph Section */
+    .graph-container { text-align: center; margin-top: 3rem; }
+    .graph-container img { max-width: 100%; border-radius: 10px; box-shadow: 0 6px 12px rgba(0,0,0,0.1); margin-bottom: 1rem; }
+
+    /* FAQ */
+    .faq-item { margin-bottom: 2rem; }
+    details summary { cursor: pointer; font-weight: bold; font-size: 1.2rem; margin-bottom: 0.5rem; }
+    details p { margin-top: 0.5rem; padding-left: 1rem; color: #555; }
+
+    /* Footer */
+    footer { background: #333; color: #fff; text-align: center; padding: 3rem 1rem 2rem 1rem; }
+    footer a { color: #50e3c2; }
+    footer .social { margin-top: 1rem; display: flex; justify-content: center; gap: 1rem; }
+    footer .social a { font-size: 1.5rem; }
+
+    /* Dark Mode */
+    .dark-mode { background: #1a1a1a; color: #ddd; }
+
+    /* Specific Fix for Overlapping */
+    #features {
+      padding-top: 10rem; /* Increased padding to separate from hero */
+    }
+  </style>
+</head>
+<body>
+  <!-- Navbar -->
+  <nav data-aos="fade-down">
+    <div class="logo">ChurnSense</div>
+    <ul class="nav-links">
+      <li><a href="#" data-aos="fade-right" data-aos-delay="100">Home</a></li>
+      <li><a href="#about" data-aos="fade-right" data-aos-delay="200">About Us</a></li>
+      <li><a href="#features" data-aos="fade-right" data-aos-delay="300">Features</a></li>
+      <li><a href="#prediction" data-aos="fade-right" data-aos-delay="400">Prediction</a></li>
+      <li><a href="#faq" data-aos="fade-right" data-aos-delay="500">FAQ</a></li>
+      <li><a href="#contact" data-aos="fade-right" data-aos-delay="600">Contact</a></li>
+    </ul>
+    <div class="social">
+      <i class="fas fa-moon toggle-theme" id="themeToggle" data-aos="fade-left"></i>
+      <a href="#" data-aos="fade-left" data-aos-delay="100"><i class="fab fa-linkedin"></i></a>
+      <a href="#" data-aos="fade-left" data-aos-delay="200"><i class="fab fa-github"></i></a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <header>
+    <div class="hero-content" data-aos="fade-right" data-aos-duration="1000">
+      <h1>Predict & Prevent Customer Churn with Confidence</h1>
+      <p>Leverage state-of-the-art machine learning to proactively retain your most valuable customers and grow your business.</p>
+      <a href="#features" class="cta-btn" data-aos="zoom-in" data-aos-delay="500">Explore Features</a>
+    </div>
+  </header>
+
+  <!-- Features -->
+  <section id="features" class="container">
+    <div class="row" data-aos="fade-right">
+      <div class="box"><i class="fas fa-chart-line"></i><h3>Accurate Predictions</h3><p>Over 90% precision in identifying churn risks.</p></div>
+    </div>
+    <div class="row reverse" data-aos="fade-left">
+      <div class="box"><i class="fas fa-user-shield"></i><h3>Secure Data</h3><p>Encrypted, GDPR-compliant data handling ensures your customer information is safe.</p></div>
+    </div>
+    <div class="row" data-aos="fade-right">
+      <div class="box"><i class="fas fa-mobile-alt"></i><h3>Responsive UI</h3><p>Optimized for desktop & mobile experiences to access insights on the go.</p></div>
+    </div>
+    <div class="row reverse" data-aos="fade-left">
+      <div class="box"><i class="fas fa-lightbulb"></i><h3>Insights & Reporting</h3><p>Generate automated insights and detailed reports for strategic decision-making.</p></div>
+    </div>
+    <!-- Analytics Dashboard Below -->
+    <div class="graph-container" data-aos="fade-up">
+      <img src="..\images\Screenshot 2025-04-27 125239.png" alt="Analytics Dashboard" />
+      <p>Interactive dashboard showcasing churn metrics and trends</p>
+    </div>
+  </section>
+
+  <!-- Prediction Graph -->
+  <section id="prediction">
+    <div class="container">
+      <h2 data-aos="fade-up">Churn Risk Overview</h2>
+      <div class="graph-container" data-aos="fade-up" data-aos-delay="200">
+        <img src="../images/incontent-4404x.webp" alt="Churn Prediction Graph" height="200px" />
+        <p>Monthly churn risk  over time</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container">
+    <h2 data-aos="fade-up">Frequently Asked Questions</h2>
+    <div class="faq" data-aos="fade-up" data-aos-delay="200">
+      <details class="faq-item"><summary>What is customer churn prediction?</summary><p>Using historical data to foresee which customers are likely to leave.</p></details>
+      <details class="faq-item"><summary>How is my data handled?</summary><p>Encrypted in transit and at rest, fully GDPR-compliant.</p></details>
+      <details class="faq-item"><summary>Can I download reports?</summary><p>Yes—export detailed analyses as PDF or Excel.</p></details>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer id="contact" data-aos="fade-up">
+    <p>Contact us at <a href="mailto:support@churnsense.com">support@churnsense.com</a></p>
+    <div class="social">
+      <a href="#"><i class="fab fa-linkedin"></i></a>
+      <a href="#"><i class="fab fa-github"></i></a>
+    </div>
+    <p>&copy; 2025 ChurnSense. All rights reserved.</p>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>
+    AOS.init({ once: true, duration: 800 });
+    // Smooth scroll
+    document.querySelectorAll('nav ul li a').forEach(anchor => { anchor.addEventListener('click', e => { e.preventDefault(); document.querySelector(anchor.getAttribute('href')).scrollIntoView({ behavior: 'smooth' }); }); });
+    // Theme Toggle
+    const toggle = document.getElementById('themeToggle'); toggle.addEventListener('click', () => document.body.classList.toggle('dark-mode'));
+  </script>
+</body>
+</html>
